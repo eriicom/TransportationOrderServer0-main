@@ -67,62 +67,36 @@ public class TransportationOrderControllerTest {
     private MockMvc mockMvc;
 
     @Test
-
     public void testGetOrders() throws Exception {
-
         //call GET "/transportationorders"  application/json
-
-       
         when(repository.findAll()).thenReturn(getAllTestOrders());
 
         RequestBuilder request = MockMvcRequestBuilders
-
                 .get("/transportationorders")
-
                 .accept(MediaType.APPLICATION_JSON);
-
        
-
         MvcResult result = mockMvc.perform(request)
-
                 .andExpect(status().isOk())
-
+                .andExpect(jsonPath("$", hasSize(20)))
                 .andReturn();
-
     }
 
     private List<TransportationOrder> getAllTestOrders(){
-
         ObjectMapper objectMapper = new ObjectMapper();
-
         ArrayList<TransportationOrder> orders =
-
                new ArrayList<TransportationOrder>();
-
         TransportationOrder order = null;
-
        
-
         try(BufferedReader br = new BufferedReader(new FileReader(
-
                         new ClassPathResource("orders.json").getFile()))) {
-
             for(String line; (line = br.readLine()) != null; ) {
-
               order = objectMapper.readValue(line, TransportationOrder.class);
-
               orders.add(order);
-
             }
-
           } catch (IOException e) {
-
                 e.printStackTrace();
-
         }
-
          return orders;
-
        }
 
        @Test
