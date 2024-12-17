@@ -57,7 +57,8 @@ jobs:
       run: mvn -B verify --file pom.xml
 
     - run: ls ${GITHUB_WORKSPACE}/target/*.jar
-    verify-and-package:
+
+  verify-and-package:
 
     needs: build
 
